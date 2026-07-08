@@ -62,10 +62,6 @@ class Graphics:
         )
         self.buttons = [save_button, audio_button, quit_button]
 
-        self.draw_background()
-        self.draw_footer()
-        self.draw_clicker()
-
     def draw_background(self):
         # TODO: background images
         self.screen.fill("gray")
