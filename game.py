@@ -1,6 +1,8 @@
 class Game:
     def __init__(self):
         self.points = 0.0
+        self.points_per_click = 1
+        # TODO: click multiplier
         self.points_per_second = 0.0
         self.inventory = []
 

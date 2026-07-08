@@ -17,6 +17,13 @@ FOOTER_COLOR = "black"
 FOOTER_TEXT_COLOR = "white"
 FOOTER_TEXT_MARGIN = 10
 
+SIDEBAR_WIDTH = 400
+SIDEBAR_MARGIN = 40
+SIDEBAR_PADDING = 40
+SIDEBAR_BORDER_RADIUS = 20
+SIDEBAR_COLOR = "darkgray"
+SIDEBAR_TEXT_COLOR = "black"
+
 
 class Graphics:
     def __init__(self, screen: pg.Surface):
@@ -38,6 +45,8 @@ class Graphics:
         pg.font.init()
         self.score_font = pg.font.SysFont("Arial", 72, True)
         self.footer_font = pg.font.SysFont("Arial", 18)
+        self.sidebar_heading_font = pg.font.SysFont("Arial", 32, True)
+        self.sidebar_font = pg.font.SysFont("Arial", 24)
 
         # Create control buttons
         btn_y = BUTTONS_MARGIN
@@ -114,3 +123,47 @@ class Graphics:
 
     def is_in_clicker(self, pos: Point):
         return self.clicker.collidepoint(pos)
+
+    def draw_right_sidebar(
+        self, points_per_click: int, points_per_second: float, equipment: list[str]
+    ):
+        coords = (
+            self.width - SIDEBAR_MARGIN - SIDEBAR_WIDTH,
+            HEADER_HEIGHT + SIDEBAR_MARGIN,
+        )
+        dimensions = (
+            SIDEBAR_WIDTH,
+            self.height - HEADER_HEIGHT - FOOTER_HEIGHT - 2 * SIDEBAR_MARGIN,
+        )
+
+        self.right_sidebar = pg.draw.rect(
+            self.screen,
+            SIDEBAR_COLOR,
+            coords + dimensions,
+            border_radius=SIDEBAR_BORDER_RADIUS,
+        )
+
+        text_x = self.right_sidebar.x + SIDEBAR_PADDING
+        text_y = self.right_sidebar.y + SIDEBAR_PADDING
+
+        lines = {
+            # Stats heading
+            0: self.sidebar_heading_font.render("Stats", True, SIDEBAR_TEXT_COLOR),
+            # Points per click
+            60: self.sidebar_font.render(
+                f"{points_per_click} points/click", True, SIDEBAR_TEXT_COLOR
+            ),
+            # Points per second
+            100: self.sidebar_font.render(
+                f"{points_per_second} points/s", True, SIDEBAR_TEXT_COLOR
+            ),
+            # Equipment heading
+            160: self.sidebar_heading_font.render(
+                "Equipment", True, SIDEBAR_TEXT_COLOR
+            ),
+            # TODO: draw upgrades/equipment
+        }
+
+        # Draw every line of text
+        for y, text_line in lines.items():
+            self.screen.blit(text_line, (text_x, text_y + y))

@@ -42,6 +42,7 @@ while running:
     gfx.draw_score(game.points)
     gfx.draw_clicker()
     gfx.draw_footer()
+    gfx.draw_right_sidebar(game.points_per_click, game.points_per_second, [])
     pg.display.flip()
 
     clock.tick(60)
