@@ -77,8 +77,8 @@ class Graphics:
         for button in self.buttons:
             button.draw(self.screen)
 
-    def draw_score(self, points: int):
-        text = self.score_font.render(str(points), True, SCORE_COLOR)
+    def draw_score(self, points: float):
+        text = self.score_font.render(str(round(points)), True, SCORE_COLOR)
         coords = (
             self.width / 2 - text.get_width() / 2,
             HEADER_HEIGHT / 2 - text.get_height() / 2,

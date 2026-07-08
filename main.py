@@ -35,6 +35,8 @@ while running:
         for button in gfx.buttons:
             button.handle_event(event)
 
+    game.passive_points()
+
     gfx.draw_background()
     gfx.draw_header()
     gfx.draw_score(game.points)
