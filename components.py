@@ -3,7 +3,7 @@ from typing import Callable
 import pygame as pg
 from pygame.typing import ColorLike
 
-from crafting import Item
+from crafting import Recipe
 
 
 CONTROL_BTN_SIZE = 60
@@ -82,14 +82,14 @@ class UpgradeButton:
         self,
         x: float,
         y: float,
-        item: Item,
+        recipe: Recipe,
         bg_color: ColorLike,
         text_color: ColorLike,
         callback: Callable,
     ):
         self.rect = pg.Rect(x, y, UPGRADE_BTN_WIDTH, UPGRADE_BTN_HEIGHT)
         self.callback = callback
-        self.item = item
+        self.recipe = recipe
 
         self.heading_font = pg.font.SysFont("Arial", 24, True)
         self.font = pg.font.SysFont("Arial", 16)
@@ -154,10 +154,10 @@ class UpgradeButton:
         text_x = self.rect.x + UPGRADE_BTN_HEIGHT + UPGRADE_BTN_PADDING
         text_y = self.rect.y + UPGRADE_BTN_PADDING
 
-        # Draw item name
-        text = self.heading_font.render(self.item.name, True, self.text_color)
+        # Draw recipe name
+        text = self.heading_font.render(self.recipe.name, True, self.text_color)
         screen.blit(text, (text_x, text_y))
 
-        # Draw item description
-        text = self.font.render(self.item.description, True, self.text_color)
+        # Draw recipe description
+        text = self.font.render(self.recipe.description, True, self.text_color)
         screen.blit(text, (text_x, text_y + 55))

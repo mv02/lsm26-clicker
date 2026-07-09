@@ -1,4 +1,4 @@
-from crafting import Item
+from crafting import Recipe
 
 
 class Game:
@@ -16,7 +16,7 @@ class Game:
     def passive_points(self):
         self.points += self.points_per_second / 60
 
-    def available_upgrades(self) -> list[Item]:
+    def available_upgrades(self) -> list[Recipe]:
         # TODO: return craftable items
         return []
 

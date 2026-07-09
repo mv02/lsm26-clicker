@@ -7,7 +7,7 @@ from components import (
     UPGRADE_BTN_HEIGHT,
     UpgradeButton,
 )
-from crafting import Item
+from crafting import Recipe
 
 
 CLICKER_SIZE = 100
@@ -131,7 +131,7 @@ class Graphics:
     def is_in_clicker(self, pos: Point):
         return self.clicker.collidepoint(pos)
 
-    def draw_left_sidebar(self, upgrades: list[Item]):
+    def draw_left_sidebar(self, upgrades: list[Recipe]):
         # Create upgrade buttons
         self.upgrade_buttons = [
             UpgradeButton(
@@ -139,14 +139,14 @@ class Graphics:
                 HEADER_HEIGHT
                 + SIDEBAR_MARGIN
                 + i * (BUTTONS_SPACING + UPGRADE_BTN_HEIGHT),
-                item,
+                recipe,
                 SIDEBAR_COLOR,
                 SIDEBAR_TEXT_COLOR,
-                lambda it=item: pg.event.post(
-                    pg.Event(pg.USEREVENT, item_name=it.name)
+                lambda r=recipe: pg.event.post(
+                    pg.Event(pg.USEREVENT, item_name=r.name)
                 ),
             )
-            for i, item in enumerate(upgrades)
+            for i, recipe in enumerate(upgrades)
         ]
 
         # Draw all buttons
