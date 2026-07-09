@@ -1,7 +1,13 @@
 import pygame as pg
 from pygame.typing import Point
 
-from components import ControlButton, BTN_SIZE
+from components import (
+    ControlButton,
+    CONTROL_BTN_SIZE,
+    UPGRADE_BTN_HEIGHT,
+    UpgradeButton,
+)
+from crafting import Item
 
 
 CLICKER_SIZE = 100
@@ -50,7 +56,7 @@ class Graphics:
 
         # Create control buttons
         btn_y = BUTTONS_MARGIN
-        btn_x = self.width - BUTTONS_MARGIN - BTN_SIZE
+        btn_x = self.width - BUTTONS_MARGIN - CONTROL_BTN_SIZE
         quit_button = ControlButton(
             btn_x,
             btn_y,
@@ -59,17 +65,18 @@ class Graphics:
             "white",
             lambda: pg.event.post(pg.Event(pg.QUIT)),
         )
-        btn_x -= BUTTONS_SPACING + BTN_SIZE
+        btn_x -= BUTTONS_SPACING + CONTROL_BTN_SIZE
         # TODO: audio button handler
         audio_button = ControlButton(
             btn_x, btn_y, "volume-solid-full", "#004cff", "white", lambda: None
         )
-        btn_x -= BUTTONS_SPACING + BTN_SIZE
+        btn_x -= BUTTONS_SPACING + CONTROL_BTN_SIZE
         # TODO: save button handler
         save_button = ControlButton(
             btn_x, btn_y, "floppy-disk-solid-full", "#004cff", "white", lambda: None
         )
-        self.buttons = [save_button, audio_button, quit_button]
+        self.control_buttons = [save_button, audio_button, quit_button]
+        self.upgrade_buttons: list[UpgradeButton] = []
 
     def draw_background(self):
         # TODO: background images
@@ -79,7 +86,7 @@ class Graphics:
         pg.draw.rect(self.screen, HEADER_COLOR, (0, 0, self.width, HEADER_HEIGHT))
 
         # Draw all buttons
-        for button in self.buttons:
+        for button in self.control_buttons:
             button.draw(self.screen)
 
     def draw_score(self, points: float):
@@ -124,6 +131,28 @@ class Graphics:
     def is_in_clicker(self, pos: Point):
         return self.clicker.collidepoint(pos)
 
+    def draw_left_sidebar(self, upgrades: list[Item]):
+        # Create upgrade buttons
+        self.upgrade_buttons = [
+            UpgradeButton(
+                SIDEBAR_MARGIN,
+                HEADER_HEIGHT
+                + SIDEBAR_MARGIN
+                + i * (BUTTONS_SPACING + UPGRADE_BTN_HEIGHT),
+                item,
+                SIDEBAR_COLOR,
+                SIDEBAR_TEXT_COLOR,
+                lambda it=item: pg.event.post(
+                    pg.Event(pg.USEREVENT, item_name=it.name)
+                ),
+            )
+            for i, item in enumerate(upgrades)
+        ]
+
+        # Draw all buttons
+        for button in self.upgrade_buttons:
+            button.draw(self.screen)
+
     def draw_right_sidebar(
         self, points_per_click: int, points_per_second: float, equipment: list[str]
     ):
@@ -167,3 +196,6 @@ class Graphics:
         # Draw every line of text
         for y, text_line in lines.items():
             self.screen.blit(text_line, (text_x, text_y + y))
+
+    def buttons(self):
+        return self.control_buttons + self.upgrade_buttons

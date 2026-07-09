@@ -31,8 +31,12 @@ while running:
                 game.click()
                 gfx.clicker_growing = True
 
+        elif event.type == pg.USEREVENT:
+            # Upgrade event
+            game.buy_upgrade(event.item_name)
+
         # Send events to buttons
-        for button in gfx.buttons:
+        for button in gfx.buttons():
             button.handle_event(event)
 
     game.passive_points()
@@ -42,6 +46,7 @@ while running:
     gfx.draw_score(game.points)
     gfx.draw_clicker()
     gfx.draw_footer()
+    gfx.draw_left_sidebar(game.available_upgrades())
     gfx.draw_right_sidebar(game.points_per_click, game.points_per_second, [])
     pg.display.flip()
 

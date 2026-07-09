@@ -1,3 +1,6 @@
+from crafting import Item
+
+
 class Game:
     def __init__(self):
         self.points = 0.0
@@ -12,5 +15,13 @@ class Game:
 
     def passive_points(self):
         self.points += self.points_per_second / 60
+
+    def available_upgrades(self) -> list[Item]:
+        # TODO: return craftable items
+        return []
+
+    def buy_upgrade(self, item_name: str):
+        # TODO: handle upgrade purchase/item crafting
+        print(f"Purchased {item_name}")
 
     # TODO: upgrades, inventory
