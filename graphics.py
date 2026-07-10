@@ -71,9 +71,13 @@ class Graphics:
             btn_x, btn_y, "volume-solid-full", "#004cff", "white", lambda: None
         )
         btn_x -= BUTTONS_SPACING + CONTROL_BTN_SIZE
-        # TODO: save button handler
         save_button = ControlButton(
-            btn_x, btn_y, "floppy-disk-solid-full", "#004cff", "white", lambda: None
+            btn_x,
+            btn_y,
+            "floppy-disk-solid-full",
+            "#004cff",
+            "white",
+            lambda: pg.event.post(pg.Event(pg.USEREVENT + 1)),
         )
         self.control_buttons = [save_button, audio_button, quit_button]
         self.upgrade_buttons: list[UpgradeButton] = []

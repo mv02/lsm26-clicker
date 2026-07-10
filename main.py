@@ -1,3 +1,4 @@
+import os
 import pygame as pg
 
 from game import Game
@@ -14,6 +15,8 @@ running = True
 
 game = Game()
 gfx = Graphics(screen)
+
+game.load_game()
 
 while running:
     for event in pg.event.get():
@@ -34,6 +37,10 @@ while running:
         elif event.type == pg.USEREVENT:
             # Upgrade event
             game.buy_upgrade(event.item_name)
+
+        elif event.type == pg.USEREVENT + 1:
+            # Save event
+            game.save_game()
 
         # Send events to buttons
         for button in gfx.buttons():
