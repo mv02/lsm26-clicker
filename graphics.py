@@ -30,8 +30,6 @@ SIDEBAR_BORDER_RADIUS = 20
 SIDEBAR_COLOR = "darkgray"
 SIDEBAR_TEXT_COLOR = "black"
 
-MAX_UPGRADE_BUTTONS = 5
-
 
 class Graphics:
     def __init__(self, screen: pg.Surface):
@@ -162,7 +160,7 @@ class Graphics:
             - HEADER_HEIGHT
             - FOOTER_HEIGHT
             - 2 * SIDEBAR_MARGIN
-            - MAX_UPGRADE_BUTTONS * (BUTTONS_SPACING + UPGRADE_BTN_HEIGHT)
+            - len(upgrades) * (BUTTONS_SPACING + UPGRADE_BTN_HEIGHT)
         )
         inventory_rect = pg.draw.rect(
             self.screen,
@@ -171,7 +169,7 @@ class Graphics:
                 SIDEBAR_MARGIN,
                 HEADER_HEIGHT
                 + SIDEBAR_MARGIN
-                + MAX_UPGRADE_BUTTONS * (BUTTONS_SPACING + UPGRADE_BTN_HEIGHT),
+                + len(upgrades) * (BUTTONS_SPACING + UPGRADE_BTN_HEIGHT),
                 SIDEBAR_WIDTH,
                 inventory_height,
             ),
