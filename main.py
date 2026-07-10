@@ -46,7 +46,7 @@ while running:
     gfx.draw_score(game.points)
     gfx.draw_clicker()
     gfx.draw_footer()
-    gfx.draw_left_sidebar(game.available_upgrades())
+    gfx.draw_left_sidebar(game.available_upgrades(), game.inventory)
     gfx.draw_right_sidebar(game.points_per_click, game.points_per_second, [])
     pg.display.flip()
 

@@ -30,6 +30,8 @@ SIDEBAR_BORDER_RADIUS = 20
 SIDEBAR_COLOR = "darkgray"
 SIDEBAR_TEXT_COLOR = "black"
 
+MAX_UPGRADE_BUTTONS = 5
+
 
 class Graphics:
     def __init__(self, screen: pg.Surface):
@@ -131,7 +133,7 @@ class Graphics:
     def is_in_clicker(self, pos: Point):
         return self.clicker.collidepoint(pos)
 
-    def draw_left_sidebar(self, upgrades: list[Recipe]):
+    def draw_left_sidebar(self, upgrades: list[Recipe], inventory: list[str]):
         # Create upgrade buttons
         self.upgrade_buttons = [
             UpgradeButton(
@@ -152,6 +154,39 @@ class Graphics:
         # Draw all buttons
         for button in self.upgrade_buttons:
             button.draw(self.screen)
+
+        # Draw inventory
+        # TODO: better inventory
+        inventory_height = (
+            self.height
+            - HEADER_HEIGHT
+            - FOOTER_HEIGHT
+            - 2 * SIDEBAR_MARGIN
+            - MAX_UPGRADE_BUTTONS * (BUTTONS_SPACING + UPGRADE_BTN_HEIGHT)
+        )
+        inventory_rect = pg.draw.rect(
+            self.screen,
+            SIDEBAR_COLOR,
+            (
+                SIDEBAR_MARGIN,
+                HEADER_HEIGHT
+                + SIDEBAR_MARGIN
+                + MAX_UPGRADE_BUTTONS * (BUTTONS_SPACING + UPGRADE_BTN_HEIGHT),
+                SIDEBAR_WIDTH,
+                inventory_height,
+            ),
+            border_radius=10,
+        )
+
+        text_x = inventory_rect.x + SIDEBAR_PADDING
+        text_y = inventory_rect.y + SIDEBAR_PADDING
+
+        text = self.sidebar_heading_font.render("Inventory", True, SIDEBAR_TEXT_COLOR)
+        self.screen.blit(text, (text_x, text_y))
+
+        for i, item in enumerate(inventory):
+            text = self.sidebar_font.render(item, True, SIDEBAR_TEXT_COLOR)
+            self.screen.blit(text, (text_x, text_y + 60 + i * 40))
 
     def draw_right_sidebar(
         self, points_per_click: int, points_per_second: float, equipment: list[str]
